@@ -15,6 +15,9 @@
 
     <!-- My CSS -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 
 <body id="home">
@@ -39,8 +42,9 @@
     <!-- NAVBAR-END -->
 
     <!-- jumbotron -->
-    <section class="jumbotron text-center">
-        <img src="WhatsApp Image 2023-08-29 at 12.23.58.jpeg" alt="" width="200px" class="img-thumbnail rounded-circle">
+    <section class="jumbotron text-center" data-aos="flip-left" data-aos-duration="2000">
+        <img src="WhatsApp Image 2023-08-29 at 12.23.58.jpeg" alt="" width="200" height="300"
+            class="img-thumbnail rounded-circle">
         <h1 class="display-4 fw-bold fs-4">Muhamad Rizal Fahmi</h1>
         <p class="lead">Siswa SMKN 40 JAKARTA</p>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -59,7 +63,7 @@
                     <h2> About Me</h2>
                 </div>
             </div>
-            <div class="row justify-content-center fs-5 text-center">
+            <div class="row justify-content-center fs-5 text-center" data-aos="zoom-in-up">
                 <div class="col-md-4">
                     <p> Halo, Nama saya Rizal,saya bersekolah di smkn 40,rumah saya di pisangan lama </p>
                 </div>
@@ -76,12 +80,12 @@
     <!-- GALLERY -->
     <section id="gallery">
         <div class="container">
-            <div class="row text-center mb-3">
+            <div class="row text-center mb-3" data-aos="fade-down">
                 <div class="col">
                     <h2>Gallery</h2>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" data-aos="fade-up">
                 <div class="col-md-4 mb-3">
                     <div class="card">
                         <img src="WhatsApp Image 2023-08-29 at 12.47.39.jpeg" class="card-img-top" alt="Gallery 2" />
@@ -136,15 +140,19 @@
 
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <form>
+                    <div class="alert alert-success alert-dismissible fade show d-none my-alert" role="alert">
+                        <strong>Terima Kasih</strong> Pesan anda sudah kami terima.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <form name="submit-sheets">
                         <div class="mb-3 ml-3">
                             <label for="name" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="name" aria-describedby="name">
+                            <input type="text" class="form-control" id="name" name="nama" aria-describedby="name">
                         </div>
 
                         <div class="mb-3 ml-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" aria-describedby="email">
+                            <input type="email" class="form-control" id="email" name="email" aria-describedby="email">
                         </div>
 
                         <div class="mb-3 ml-3">
@@ -152,7 +160,11 @@
                             <textarea class="form-control" id="pesan" rows="3" name="pesan"></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary ml-3">kirim</button>
+                        <button type="submit" class="btn btn-primary ml-3 btn-kirim">kirim</button>
+                        <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Loading...
+                        </button>
                     </form>
                 </div>
             </div>
@@ -169,15 +181,38 @@
     <footer class="bg-primary text-white text-center mt-25 ">
         <p>
             <i class="bi bi-suit-heart-fill"></i>
-            <a href="https://www.instagram.com/desyii16/" target="_blank" class="text-white fw-bold">Rizal Fahmi </a>
+            <a href="https://www.instagram.com/mrizalfhmi/" target="_blank" class="text-white fw-bold">Muhamad Rizal
+                Fahmi</a>
             CopyRight
         </p>
     </footer>
     <!-- FOOTER-END -->
 
-    <!-- jumbotron -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
 
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxR5IOsY765CozxOe7rHHDWh4QWbnpvamIf8wK7afsZuFrhporJltZMRyY74Wz1UBoGXA/exec'
+        const form = document.forms['submit-sheets'];
+        const btnKirim = document.querySelector('.btn-kirim');
+        const myAlert = document.querySelector('.my-alert')
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            //ketika tombol submit di click
+            //tampilkan tombol loading, hilangkan tombol kirim
+            myAlert.classList.toggle('d-none');
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => console.log('Success!', response))
+                .catch(error => console.error('Error!', error.message))
+        })
+    </script>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 </body>
 
 </html>
